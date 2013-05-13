@@ -68,6 +68,7 @@ public class EditActivity extends Activity {
 		me = this;
 		
 		Mode = getIntent().getExtras().getString("Mode");
+		DbIndex = -1;
 	}
 	
 	@Override
@@ -111,8 +112,36 @@ public class EditActivity extends Activity {
 			DbIndex = getIntent().getExtras().getInt("Index");
 			editText_name.setText(db.getDataList().get(DbIndex).getName());
 			editText_phone.setText(db.getDataList().get(DbIndex).getPhoneNumber());
-			for(int i = 0;i<db.getDataList().get(DbIndex).getFieldList().size();)
+			
+			for(int i = 0;i < db.getDataList().get(DbIndex).getFieldList().size();)
 			{
+				fieldCount++;
+				
+				field = new RelativeLayout(me);
+				
+				EditText field_name = new EditText(me);
+				EditText field_info = new EditText(me);
+				
+				field_name.setId(dynamic_fieldname + fieldCount);
+				field_info.setId(dynamic_fieldinfo + fieldCount);
+				
+				field.addView(field_name);
+				field.addView(field_info);
+				
+				RelativeLayout.LayoutParams field_name_editText = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+				field_name_editText.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+				field_name_editText.width = 260;
+				
+				RelativeLayout.LayoutParams field_info_editText = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+				field_info_editText.addRule(RelativeLayout.RIGHT_OF, field_name.getId());
+				field_info_editText.width = 340;
+				
+				field_name.setLayoutParams(field_name_editText);
+				field_info.setLayoutParams(field_info_editText);
+				
+				fieldArray.add(field);
+				
+				dynamiclayout.addView(field);
 				
 			}
 		}
@@ -148,6 +177,14 @@ public class EditActivity extends Activity {
 				
 			case R.id.edit_savebtn:
 				Toast.makeText(EditActivity.this, "save btn", Toast.LENGTH_SHORT).show();
+				if(DbIndex == -1)//add юс
+				{
+					
+				}
+				else
+				{
+					EditData();
+				}
 				break;
 				
 			case R.id.edit_Picture:
@@ -171,6 +208,11 @@ public class EditActivity extends Activity {
 			}
 		}
 		
+		private void EditData()
+		{
+			//editText_name
+		}
+		
 		private void AddField()
 		{
 			fieldCount++;
@@ -179,7 +221,7 @@ public class EditActivity extends Activity {
 			
 			EditText field_name = new EditText(me);
 			EditText field_info = new EditText(me);
-			ImageButton btn_delete_field = new ImageButton(me);
+//			ImageButton btn_delete_field = new ImageButton(me);
 			
 			field_name.setId(dynamic_fieldname + fieldCount);
 			field_info.setId(dynamic_fieldinfo + fieldCount);
@@ -194,7 +236,7 @@ public class EditActivity extends Activity {
 //					
 //				}
 //			});
-			btn_delete_field.setBackgroundDrawable(null);
+//			btn_delete_field.setBackgroundDrawable(null);
 			
 			field.addView(field_name);
 			field.addView(field_info);
@@ -280,3 +322,4 @@ public class EditActivity extends Activity {
 	}
 
 }
+
