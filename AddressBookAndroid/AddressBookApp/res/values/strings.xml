@@ -11,5 +11,7 @@
     <string name="Edit_phone">휴대폰</string>
     <string name="Edit_fieldName">Field Name</string>
     <string name="Edit_fieldInfo">Field Info</string>
+    <string name="edit_call">Call</string>
+    <string name="edit_sms">Sms</string>
 
 </resources>

@@ -98,9 +98,6 @@ public class EditActivity extends Activity {
 		btn_fieldDelete = (ImageButton)findViewById(R.id.edit_fieldDeletebtn);
 		btn_fieldDelete.setOnClickListener(clickLisener);
 		
-		editText_fieldName = (EditText)findViewById(R.id.editText_fieldName);
-		editText_fieldInfo = (EditText)findViewById(R.id.editText_fieldInfo);
-		
 		dynamiclayout = (LinearLayout)findViewById(R.id.dynamicArea);
 		dynamiclayout.setOrientation(LinearLayout.VERTICAL);
 		
@@ -329,9 +326,6 @@ public class EditActivity extends Activity {
 				convertView = Inflator.inflate(layout, parent,false);
 			}
 			
-			EditText fieldname = (EditText)convertView.findViewById(R.id.editText_fieldName);
-			
-			EditText fieldinfo = (EditText)convertView.findViewById(R.id.editText_fieldInfo);
 			
 			ImageButton fieldDeleteBtn = (ImageButton)convertView.findViewById(R.id.edit_fieldDeletebtn);
 			fieldDeleteBtn.setImageResource(R.drawable.edit_fielddeletebtn);
