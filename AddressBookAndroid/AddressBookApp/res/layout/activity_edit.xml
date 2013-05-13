@@ -153,14 +153,15 @@
                     android:background="@null"
                     android:src="@drawable/edit_fielddeletebtn" />
 
-                <Button
+                <ImageButton
                     android:id="@+id/edit_deleteData"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/dynamicArea"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="180dp"
-                    android:text="@string/edit_delete_btn" />
+                    android:background="@null"
+                    android:src="@drawable/edit_delete_databtn" />
 
             </RelativeLayout>
 
@@ -190,19 +191,23 @@
         android:layout_alignParentLeft="true"
         android:layout_marginBottom="0dp" >
 
-        <Button
+        <ImageButton
             android:id="@+id/button_call"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/edit_call" />
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:src="@drawable/edit_callbtn" />
 
-        <Button
+        <ImageButton
             android:id="@+id/button_sms"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:text="@string/edit_sms" />
+            android:src="@drawable/edit_smsbtn"
+            android:background="@null" />
 
     </RelativeLayout>
 

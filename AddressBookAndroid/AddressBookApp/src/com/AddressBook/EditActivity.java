@@ -36,9 +36,9 @@ public class EditActivity extends Activity {
 	EditText editText_fieldInfo;
 	
 	Button btn_test;
-	Button btn_call;
-	Button btn_sms;
-	Button btn_deleteData;
+	ImageButton btn_call;
+	ImageButton btn_sms;
+	ImageButton btn_deleteData;
 	
 	private FileManager FM;
 	private DB db;
@@ -92,13 +92,13 @@ public class EditActivity extends Activity {
 		dynamiclayout = (LinearLayout)findViewById(R.id.dynamicArea);
 		dynamiclayout.setOrientation(LinearLayout.VERTICAL);
 		
-		btn_call = (Button)findViewById(R.id.button_call);
+		btn_call = (ImageButton)findViewById(R.id.button_call);
 		btn_call.setOnClickListener(clickLisener);
 		
-		btn_sms = (Button)findViewById(R.id.button_sms);
+		btn_sms = (ImageButton)findViewById(R.id.button_sms);
 		btn_sms.setOnClickListener(clickLisener);
 		
-		btn_deleteData = (Button)findViewById(R.id.edit_deleteData);
+		btn_deleteData = (ImageButton)findViewById(R.id.edit_deleteData);
 		btn_deleteData.setOnClickListener(clickLisener);
 		btn_deleteData.setVisibility(View.GONE);
 		
