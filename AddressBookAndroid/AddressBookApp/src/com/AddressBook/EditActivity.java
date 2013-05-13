@@ -2,14 +2,11 @@ package com.AddressBook;
 
 import java.util.ArrayList;
 
-import android.R.drawable;
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.widget.SimpleCursorAdapter.ViewBinder;
-import android.text.Layout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -21,10 +18,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-import android.view.View.OnClickListener;
 
 public class EditActivity extends Activity {
 	
@@ -97,6 +92,9 @@ public class EditActivity extends Activity {
 		btn_fieldAdd.setOnClickListener(clickLisener);
 		btn_fieldDelete = (ImageButton)findViewById(R.id.edit_fieldDeletebtn);
 		btn_fieldDelete.setOnClickListener(clickLisener);
+		
+		editText_fieldName = (EditText)findViewById(R.id.editText_fieldName);
+		editText_fieldInfo = (EditText)findViewById(R.id.editText_fieldInfo);
 		
 		dynamiclayout = (LinearLayout)findViewById(R.id.dynamicArea);
 		dynamiclayout.setOrientation(LinearLayout.VERTICAL);
@@ -207,12 +205,24 @@ public class EditActivity extends Activity {
 				
 			case R.id.edit_fieldDeletebtn:
 				Toast.makeText(EditActivity.this, "field Delete btn", Toast.LENGTH_SHORT).show();
-				fieldArray.get(fieldCount - 1).removeAllViews();
-				fieldArray.remove(fieldCount - 1);
-				fieldCount--;
+				
+				if(fieldCount > 0)
+				{
+					fieldArray.get(fieldCount - 1).removeAllViews();
+					fieldArray.remove(fieldCount - 1);
+					fieldCount--;
+				}
+				
 				break;
 				
-			//case R.id
+			case R.id.button_call:
+				Toast.makeText(EditActivity.this, "call btn", Toast.LENGTH_SHORT).show();
+				Intent callintent = new Intent(Intent.ACTION_CALL);
+				callintent.setData(Uri.parse("tel:" + editText_phone.getText().toString())); //db.getDataList().get(DbIndex).getPhoneNumber()
+				startActivity(callintent); //
+				break;
+				
+			case R.id.button_sms:
 				
 			default:
 				break;
@@ -326,6 +336,9 @@ public class EditActivity extends Activity {
 				convertView = Inflator.inflate(layout, parent,false);
 			}
 			
+			EditText fieldname = (EditText)convertView.findViewById(R.id.editText_fieldName);
+			
+			EditText fieldinfo = (EditText)convertView.findViewById(R.id.editText_fieldInfo);
 			
 			ImageButton fieldDeleteBtn = (ImageButton)convertView.findViewById(R.id.edit_fieldDeletebtn);
 			fieldDeleteBtn.setImageResource(R.drawable.edit_fielddeletebtn);
