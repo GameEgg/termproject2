@@ -238,27 +238,43 @@ public class EditActivity extends Activity {
 				break;
 				
 			case R.id.button_call:
-				Toast.makeText(EditActivity.this, "call btn", Toast.LENGTH_SHORT).show();
-				Intent callintent = new Intent(Intent.ACTION_CALL);
-				callintent.setData(Uri.parse("tel:" + db.getDataList().get(DbIndex).getPhoneNumber())); //
-				startActivity(callintent); //editText_phone.getText().toString()
+				
+				if(editText_phone.getText().length() != 0)
+				{
+					Intent callintent = new Intent(Intent.ACTION_CALL);
+					callintent.setData(Uri.parse("tel:" + editText_phone.getText())); //
+					startActivity(callintent); //editText_phone.getText().toString()
+				}
+				else
+				{
+					Toast.makeText(EditActivity.this, "Please Input Phone Number!", Toast.LENGTH_SHORT).show();
+				}
 				break;
 				
 			case R.id.button_sms:
 				
-				try {
-				     Intent sendIntent = new Intent(Intent.ACTION_VIEW);
-				     sendIntent.putExtra("address", editText_phone.getText().toString());
-				     sendIntent.putExtra("sms_body", "æ»≥Á«œººø‰ ¡∂±≥¥‘");
-				     sendIntent.setType("vnd.android-dir/mms-sms");
-				     startActivity(sendIntent);
+				if(editText_phone.getText().length() != 0)
+				{
+					try {
+					     Intent sendIntent = new Intent(Intent.ACTION_VIEW);
+					     sendIntent.putExtra("address", editText_phone.getText().toString());
+					     sendIntent.putExtra("sms_body", "æ»≥Á«œººø‰ ¡∂±≥¥‘");
+					     sendIntent.setType("vnd.android-dir/mms-sms");
+					     startActivity(sendIntent);
 
-				} catch (Exception e) {
-					Toast.makeText(getApplicationContext(),
-						"SMS faild, please try again later!",
-						Toast.LENGTH_LONG).show();
-					e.printStackTrace();
+					} catch (Exception e) {
+						Toast.makeText(getApplicationContext(),
+							"SMS faild, please try again later!",
+							Toast.LENGTH_LONG).show();
+						e.printStackTrace();
+					}
 				}
+				
+				else
+				{
+					Toast.makeText(EditActivity.this, "Please Input Phone Number!", Toast.LENGTH_SHORT).show();
+				}
+				
 				break;
 				
 			case R.id.edit_deleteData:
