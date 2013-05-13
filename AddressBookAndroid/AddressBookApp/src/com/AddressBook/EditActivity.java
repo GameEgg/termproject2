@@ -3,17 +3,14 @@ package com.AddressBook;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.telephony.SmsManager;
 import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -93,14 +90,14 @@ public class EditActivity extends Activity {
 		btn_fieldDelete = (ImageButton)findViewById(R.id.edit_fieldDeletebtn);
 		btn_fieldDelete.setOnClickListener(clickLisener);
 		
-		editText_fieldName = (EditText)findViewById(R.id.editText_fieldName);
-		editText_fieldInfo = (EditText)findViewById(R.id.editText_fieldInfo);
-		
 		dynamiclayout = (LinearLayout)findViewById(R.id.dynamicArea);
 		dynamiclayout.setOrientation(LinearLayout.VERTICAL);
 		
 		btn_call = (Button)findViewById(R.id.button_call);
+		btn_call.setOnClickListener(clickLisener);
+		
 		btn_sms = (Button)findViewById(R.id.button_sms);
+		btn_sms.setOnClickListener(clickLisener);
 		
 		fieldCount = 0; // field 갯수나타내는거 초기화
 		fieldArray = new ArrayList<RelativeLayout>();
@@ -116,7 +113,7 @@ public class EditActivity extends Activity {
 			
 			editText_phone.setText(db.getDataList().get(DbIndex).getPhoneNumber());
 			
-			for(int i = 0;i < db.getDataList().get(DbIndex).getFieldList().size();i++)
+			for(int i = 0; i < db.getDataList().get(DbIndex).getFieldList().size();i++)
 			{
 				fieldCount++;
 				
@@ -218,12 +215,27 @@ public class EditActivity extends Activity {
 			case R.id.button_call:
 				Toast.makeText(EditActivity.this, "call btn", Toast.LENGTH_SHORT).show();
 				Intent callintent = new Intent(Intent.ACTION_CALL);
-				callintent.setData(Uri.parse("tel:" + editText_phone.getText().toString())); //db.getDataList().get(DbIndex).getPhoneNumber()
-				startActivity(callintent); //
+				callintent.setData(Uri.parse("tel:" + db.getDataList().get(DbIndex).getPhoneNumber())); //
+				startActivity(callintent); //editText_phone.getText().toString()
 				break;
 				
 			case R.id.button_sms:
 				
+				try {
+				     Intent sendIntent = new Intent(Intent.ACTION_VIEW);
+				     sendIntent.putExtra("address", editText_phone.getText().toString());
+				     sendIntent.putExtra("sms_body", "안녕하세요 조교님");
+				     sendIntent.setType("vnd.android-dir/mms-sms");
+				     startActivity(sendIntent);
+
+				} catch (Exception e) {
+					Toast.makeText(getApplicationContext(),
+						"SMS faild, please try again later!",
+						Toast.LENGTH_LONG).show();
+					e.printStackTrace();
+				}
+
+
 			default:
 				break;
 			}
@@ -251,8 +263,10 @@ public class EditActivity extends Activity {
 			Data newaddressInfo = new Data(editText_name.getText().toString(), editText_phone.getText().toString());
 			for(int i = 1 ; i <= fieldCount; i++)
 			{
-				Field field = new Field(editText_fieldName.getText().toString(), editText_fieldInfo.getText().toString());
-				newaddressInfo.getFieldList().set(i, field);
+				EditText fieldname = (EditText)findViewById(dynamic_fieldname + i);
+				EditText fieldinfo = (EditText)findViewById(dynamic_fieldinfo + i);
+				Field field = new Field(fieldname.getText().toString(), fieldinfo.getText().toString());
+				db.getDataList().get(DbIndex).getFieldList().add(field);
 			}
 			db.getDataList().add(newaddressInfo);
 			FM.saveDB(db, "db.xml");
@@ -291,61 +305,4 @@ public class EditActivity extends Activity {
 			dynamiclayout.addView(field);
 		}
 	}
-	
-	class Applyfield extends BaseAdapter
-	{
-		Context maincon;
-		LayoutInflater Inflator;
-		int layout;
-		ArrayList<RelativeLayout> arSrc;
-		
-		public Applyfield(Context context,int alayout,ArrayList<RelativeLayout> fieldArray) {
-			maincon = context;
-			Inflator = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			arSrc = fieldArray;
-			layout = alayout;
-			// TODO Auto-generated constructor stub
-		}
-		
-		@Override
-		public int getCount() {
-			
-			// TODO Auto-generated method stub
-			return arSrc.size();
-		}
-		
-		@Override
-		public Object getItem(int position) {
-			
-			// TODO Auto-generated method stub
-			return arSrc.get(position);
-		}
-		
-		@Override
-		public long getItemId(int position) {
-			// TODO Auto-generated method stub
-			return position;
-		}
-		
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			final int pos = position;
-			
-			if(convertView == null)
-			{
-				convertView = Inflator.inflate(layout, parent,false);
-			}
-			
-			EditText fieldname = (EditText)convertView.findViewById(R.id.editText_fieldName);
-			
-			EditText fieldinfo = (EditText)convertView.findViewById(R.id.editText_fieldInfo);
-			
-			ImageButton fieldDeleteBtn = (ImageButton)convertView.findViewById(R.id.edit_fieldDeletebtn);
-			fieldDeleteBtn.setImageResource(R.drawable.edit_fielddeletebtn);
-			
-			// TODO Auto-generated method stub
-			return null;
-		}
-	}
-
 }
