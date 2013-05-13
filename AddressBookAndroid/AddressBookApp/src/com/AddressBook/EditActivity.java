@@ -64,13 +64,13 @@ public class EditActivity extends Activity {
 		
 		Mode = getIntent().getExtras().getString("Mode");
 		DbIndex = -1;
+		initializeViewObject();
 	}
 	
 	@Override
 	protected void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
-		initializeViewObject();
 	}
 	
 	private void initializeViewObject()
