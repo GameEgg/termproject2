@@ -44,6 +44,8 @@ public class EditActivity extends Activity {
 	EditText editText_fieldInfo;
 	
 	Button btn_test;
+	Button btn_call;
+	Button btn_sms;
 	
 	private FileManager FM;
 	private DB db;
@@ -101,6 +103,9 @@ public class EditActivity extends Activity {
 		
 		dynamiclayout = (LinearLayout)findViewById(R.id.dynamicArea);
 		dynamiclayout.setOrientation(LinearLayout.VERTICAL);
+		
+		btn_call = (Button)findViewById(R.id.button_call);
+		btn_sms = (Button)findViewById(R.id.button_sms);
 		
 		fieldCount = 0; // field 갯수나타내는거 초기화
 		fieldArray = new ArrayList<RelativeLayout>();
@@ -209,6 +214,8 @@ public class EditActivity extends Activity {
 				fieldArray.remove(fieldCount - 1);
 				fieldCount--;
 				break;
+				
+			//case R.id
 				
 			default:
 				break;

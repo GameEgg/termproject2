@@ -19,7 +19,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="left" >
 
                 <TextView
@@ -130,26 +130,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" >
 
-                        <EditText
-                            android:id="@+id/editText_fieldName"
-                            android:layout_width="130dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="15dp"
-                            android:ems="10"
-                            android:inputType="text"
-                            android:maxWidth="130dp" />
-
-                        <EditText
-                            android:id="@+id/editText_fieldInfo"
-                            android:layout_width="170dp"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_toRightOf="@+id/editText_fieldName"
-                            android:ems="10"
-                            android:inputType="text"
-                            android:maxWidth="170dp" />
-
                     </RelativeLayout>
                 </LinearLayout>
 
@@ -192,5 +172,28 @@
             android:background="@null"
             android:src="@drawable/edit_btn" />
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="0dp" >
+
+        <Button
+            android:id="@+id/button_call"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/edit_call" />
+
+        <Button
+            android:id="@+id/button_sms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/edit_sms" />
+
+    </RelativeLayout>
 
 </RelativeLayout>
