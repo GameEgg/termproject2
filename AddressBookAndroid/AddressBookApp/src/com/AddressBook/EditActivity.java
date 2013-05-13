@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.widget.SimpleCursorAdapter.ViewBinder;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -109,12 +110,21 @@ public class EditActivity extends Activity {
 		
 		if(Mode.equalsIgnoreCase("edit"))
 		{
+			Log.i("edit","확인 if문");
 			DbIndex = getIntent().getExtras().getInt("Index");
-			editText_name.setText(db.getDataList().get(DbIndex).getName());
-			editText_phone.setText(db.getDataList().get(DbIndex).getPhoneNumber());
 			
-			for(int i = 0;i < db.getDataList().get(DbIndex).getFieldList().size();)
+			Log.i("edit","DbIndex : "+DbIndex);
+			Log.i("edit",db.getDataList().get(DbIndex).getName()+"  "+db.getDataList().get(DbIndex).getPhoneNumber());
+			
+			editText_name.setText(db.getDataList().get(DbIndex).getName());
+			Log.i("edit","setText 첫번쨰 직후");
+			
+			editText_phone.setText(db.getDataList().get(DbIndex).getPhoneNumber());
+			Log.i("edit","확인 for직전");
+			
+			for(int i = 0;i < db.getDataList().get(DbIndex).getFieldList().size();i++)
 			{
+				Log.i("edit",i+"");
 				fieldCount++;
 				
 				field = new RelativeLayout(me);
@@ -322,4 +332,3 @@ public class EditActivity extends Activity {
 	}
 
 }
-
