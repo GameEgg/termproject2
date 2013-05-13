@@ -30,6 +30,9 @@ public class Data implements Comparable{
 	public String getName() {
 		return name;
 	}
+	public void setName(String newName) {
+		name = newName;
+	}
 	public String getPhoneNumber() {
 		String upgradeNumber = new String();
 		
