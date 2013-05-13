@@ -59,17 +59,12 @@ public class MainActivity extends Activity {
 	
 		
 
-/*
+
 		//db.getDataList().add(new Data("øˆ≈ÕπÈ", "123123123"));
 		//db.getDataList().add(new Data("∞‘¿”ø°±◊", "01027649277"));
 		//db.getDataList().add(new Data("≥ﬂ≥ﬂ≥ﬂ≥ﬂ", "123456"));
 		//db.getDataList().add(new Data("≈ª¡÷ªÛ√∂", "44444444"));
-		db.getDataList().add(new Data("RuneEgg", "222222222"));
-		db.getDataList().add(new Data("GameEgg", "111111111"));
-		db.getDataList().add(new Data("MadLife", "131313"));
-		db.getDataList().get(2).addField("NickName", "CJ Entus MadLife");
-		db.getDataList().get(2).addField("Rank", "Challenger");
-		*/
+		
 		
 		searchingText.addTextChangedListener(new searching());
 		Log.i("egg","∏ÆΩ∫≥  µÓ∑œ øœ∑·");
@@ -78,7 +73,7 @@ public class MainActivity extends Activity {
 	
 	private void resetListView()
 	{
-		
+		Log.i("egg","resetΩ√¿€!");
 		Log.i("egg", searchingText.getText().toString());
 		indexList = db.findListByString(searchingText.getText().toString());
 		dataList = new ArrayList<Data>();
@@ -99,7 +94,16 @@ public class MainActivity extends Activity {
 	protected void onResume() {
 		
 		fm = new FileManager();
-		db = fm.makeDB("db.xml");
+		//db = fm.makeDB("db.xml");->
+		db = fm.makeSQLDB(this);
+
+		db.getDataList().add(new Data("InSec", "111111111"));
+		db.getDataList().add(new Data("RapidStar", "222222222"));
+		db.getDataList().add(new Data("Shy", "131313"));
+		db.getDataList().get(2).addField("NickName", "CJ Entus Shy");
+		db.getDataList().get(2).addField("Rank", "Challenger");
+		
+		fm.saveSQLDB(this, db);
 		
 		resetListView();
 

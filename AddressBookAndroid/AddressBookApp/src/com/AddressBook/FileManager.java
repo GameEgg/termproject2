@@ -173,37 +173,52 @@ public class FileManager {
 		SQL_helper helper = new SQL_helper(context);
 		DB db = new DB();
 		SQLiteDatabase dbSQLite = helper.getReadableDatabase();
-		Cursor cur = dbSQLite.rawQuery("SELECT * FROM data WHERE id = 0", null);
+
+		//dbSQLite.execSQL("CREATE TABLE data ( id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, phone TEXT )");
+		//dbSQLite.execSQL("CREATE TABLE field ( id INTEGER PRIMARY KEY AUTOINCREMENT, dataID INTEGER, fieldName TEXT, fieldData TEXT )");
 		
+		Cursor cur = dbSQLite.rawQuery("SELECT * FROM data WHERE id = 0", null);
+
 		while(cur.moveToNext()){
+			Log.i("egg","makeSQLDB : 1번째 안");
 			db.getDataList().add(new Data(cur.getString(1),cur.getString(2)));
 		}
+		cur.close();
 		
-		cur = dbSQLite.rawQuery("SELECT * FROM field LIMIT 1", null);
+		Cursor cur2 = dbSQLite.rawQuery("SELECT * FROM field WHERE id = 0", null);
 		
-		while(cur.moveToNext()){
-			db.getDataList().get(cur.getInt(0)).addField(cur.getString(1), cur.getString(2));
+		while(cur2.moveToNext()){
+			Log.i("egg","makeSQLDB : while 두번째 안");
+			db.getDataList().get(cur.getInt(1)).addField(cur.getString(2), cur.getString(3));
 		}
+		cur2.close();
+		
+		
+		dbSQLite.close();
 		
 		return db;
 	}
 	
 	public void saveSQLDB(Context context, DB db){
+		
 		SQL_helper helper = new SQL_helper(context);
-		SQLiteDatabase dbSQLite = helper.getReadableDatabase();
+		SQLiteDatabase dbSQLite = helper.getWritableDatabase();
 
 		dbSQLite.execSQL("DROP TABLE data");
 		dbSQLite.execSQL("DROP TABLE field");
 
-		dbSQLite.execSQL("CREATE TABLE data ( id INTEGER PRIMARY KEY AUTOINCREMENT, phone TEXT");
-		dbSQLite.execSQL("CREATE TABLE field ( id INTEGER, fieldName TEXT, fieldData TEXT");
+		dbSQLite.execSQL("CREATE TABLE data ( id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, phone TEXT )");
+		dbSQLite.execSQL("CREATE TABLE field ( id INTEGER PRIMARY KEY AUTOINCREMENT, dataID INTEGER, fieldName TEXT, fieldData TEXT )");
 		
 		int i = 0;
 		for (Data data:db.getDataList()){
-			dbSQLite.execSQL("INSERT INTO data ("+null+","+data.getName()+","+data.getPhoneNumber()+")");
+			dbSQLite.execSQL("INSERT INTO data VALUES (null,'"+data.getName()+"','"+data.getPhoneNumber()+"');");
 			for(Field field:data.getFieldList()){
-				dbSQLite.execSQL("INSERT INTO field ("+i+","+field.getFieldName()+","+field.getFieldData()+")");
+				dbSQLite.execSQL("INSERT INTO field VALUES (null,"+i+",'"+field.getFieldName()+"','"+field.getFieldData()+"');");
 			}
 		}
+		
+		dbSQLite.close();
+		
 	}
 }
