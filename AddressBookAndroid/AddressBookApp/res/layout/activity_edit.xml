@@ -1,0 +1,196 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="fill_vertical"
+    tools:context=".EditActivity" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:orientation="vertical" >
+
+        <ScrollView
+            android:id="@+id/scrollView1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="@null" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="left" >
+
+                <TextView
+                    android:id="@+id/edit_Name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/edit_Picture"
+                    android:layout_below="@+id/edit_Picture"
+                    android:layout_marginTop="26dp"
+                    android:text="@string/Edit_name"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <TextView
+                    android:id="@+id/edit_Phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/edit_Name"
+                    android:layout_below="@+id/edit_Name"
+                    android:layout_marginTop="30dp"
+                    android:text="@string/Edit_phone"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <EditText
+                    android:id="@+id/editText_Phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/edit_Phone"
+                    android:layout_alignBottom="@+id/edit_Phone"
+                    android:layout_alignLeft="@+id/edit_Phone"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="60dp"
+                    android:layout_marginRight="15dp"
+                    android:ems="10"
+                    android:inputType="phone" />
+
+                <EditText
+                    android:id="@+id/editText_Name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/edit_Name"
+                    android:layout_alignBottom="@+id/edit_Name"
+                    android:layout_alignLeft="@+id/edit_Name"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="60dp"
+                    android:layout_marginRight="15dp"
+                    android:ems="10"
+                    android:inputType="textPersonName" >
+
+                    <requestFocus />
+                </EditText>
+
+                <ImageView
+                    android:id="@+id/edit_topBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/edit_layout_top_background" />
+
+                <ImageButton
+                    android:id="@+id/edit_Picture"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/edit_topBar"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@null"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/edit_picture" />
+
+                <TextView
+                    android:id="@+id/edit_FieldName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/edit_Phone"
+                    android:layout_below="@+id/editText_Phone"
+                    android:layout_marginTop="30dp"
+                    android:text="@string/Edit_fieldName"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <ImageButton
+                    android:id="@+id/edit_backbtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:scaleType="center"
+                    android:src="@drawable/edit_backbtn" />
+
+                <ImageButton
+                    android:id="@+id/edit_fieldAddbtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignRight="@+id/editText_Phone"
+                    android:layout_alignTop="@+id/edit_FieldInfo"
+                    android:background="@null"
+                    android:src="@drawable/edit_fieldaddbtn" />
+
+                <LinearLayout
+                    android:id="@+id/dynamicArea"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/edit_FieldName"
+                    android:layout_alignRight="@+id/edit_fieldAddbtn"
+                    android:layout_below="@+id/edit_FieldName"
+                    android:orientation="vertical" >
+
+                    <RelativeLayout
+                        android:id="@+id/field_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" >
+
+                        <EditText
+                            android:id="@+id/editText_fieldName"
+                            android:layout_width="130dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:ems="10"
+                            android:inputType="text"
+                            android:maxWidth="130dp" />
+
+                        <EditText
+                            android:id="@+id/editText_fieldInfo"
+                            android:layout_width="170dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_toRightOf="@+id/editText_fieldName"
+                            android:ems="10"
+                            android:inputType="text"
+                            android:maxWidth="170dp" />
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/edit_FieldInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/edit_FieldName"
+                    android:layout_alignBottom="@+id/edit_FieldName"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/Edit_fieldInfo"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <ImageButton
+                    android:id="@+id/edit_fieldDeletebtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/edit_fieldAddbtn"
+                    android:layout_marginRight="13dp"
+                    android:layout_toLeftOf="@+id/edit_fieldAddbtn"
+                    android:background="@null"
+                    android:src="@drawable/edit_fielddeletebtn" />
+            </RelativeLayout>
+
+        </ScrollView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical" >
+
+        <ImageButton
+            android:id="@+id/edit_savebtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="@null"
+            android:src="@drawable/edit_btn" />
+    </LinearLayout>
+
+</RelativeLayout>
