@@ -102,7 +102,7 @@ public class EditActivity extends Activity {
 		dynamiclayout = (LinearLayout)findViewById(R.id.dynamicArea);
 		dynamiclayout.setOrientation(LinearLayout.VERTICAL);
 		
-		fieldCount = 1; // field 갯수나타내는거 초기화
+		fieldCount = 0; // field 갯수나타내는거 초기화
 		fieldArray = new ArrayList<RelativeLayout>();
 		
 		FM = new FileManager();
@@ -110,21 +110,14 @@ public class EditActivity extends Activity {
 		
 		if(Mode.equalsIgnoreCase("edit"))
 		{
-			Log.i("edit","확인 if문");
 			DbIndex = getIntent().getExtras().getInt("Index");
 			
-			Log.i("edit","DbIndex : "+DbIndex);
-			Log.i("edit",db.getDataList().get(DbIndex).getName()+"  "+db.getDataList().get(DbIndex).getPhoneNumber());
-			
 			editText_name.setText(db.getDataList().get(DbIndex).getName());
-			Log.i("edit","setText 첫번쨰 직후");
 			
 			editText_phone.setText(db.getDataList().get(DbIndex).getPhoneNumber());
-			Log.i("edit","확인 for직전");
 			
 			for(int i = 0;i < db.getDataList().get(DbIndex).getFieldList().size();i++)
 			{
-				Log.i("edit",i+"");
 				fieldCount++;
 				
 				field = new RelativeLayout(me);
@@ -155,12 +148,12 @@ public class EditActivity extends Activity {
 				fieldArray.add(field);
 				
 				dynamiclayout.addView(field);
-				
 			}
 		}
+		
 		else
 		{
-			
+			;
 		}
 	}
 
@@ -189,10 +182,11 @@ public class EditActivity extends Activity {
 				break;
 				
 			case R.id.edit_savebtn:
+				
 				Toast.makeText(EditActivity.this, "save btn", Toast.LENGTH_SHORT).show();
 				if(DbIndex == -1)//add 임
 				{
-					
+					AddData();
 				}
 				else
 				{
@@ -223,7 +217,32 @@ public class EditActivity extends Activity {
 		
 		private void EditData()
 		{
-			//editText_name
+			Field field;
+			db.getDataList().get(DbIndex).setName(editText_name.getText().toString());
+			db.getDataList().get(DbIndex).setPhoneNumber(editText_phone.getText().toString());
+			db.getDataList().get(DbIndex).getFieldList().clear();
+			for(int i = 1; i <= fieldCount; i++ )
+			{
+				EditText fieldname = (EditText)findViewById(dynamic_fieldname + i);
+				EditText fieldinfo = (EditText)findViewById(dynamic_fieldinfo + i);
+				field = new Field(fieldname.getText().toString(), fieldinfo.getText().toString());
+				db.getDataList().get(DbIndex).getFieldList().add(field);
+			}
+			FM.saveDB(db, "db.xml");//
+			me.finish();
+		}
+		
+		private void AddData()
+		{
+			Data newaddressInfo = new Data(editText_name.getText().toString(), editText_phone.getText().toString());
+			for(int i = 1 ; i <= fieldCount; i++)
+			{
+				Field field = new Field(editText_fieldName.getText().toString(), editText_fieldInfo.getText().toString());
+				newaddressInfo.getFieldList().set(i, field);
+			}
+			db.getDataList().add(newaddressInfo);
+			FM.saveDB(db, "db.xml");
+			me.finish();
 		}
 		
 		private void AddField()
@@ -234,22 +253,9 @@ public class EditActivity extends Activity {
 			
 			EditText field_name = new EditText(me);
 			EditText field_info = new EditText(me);
-//			ImageButton btn_delete_field = new ImageButton(me);
 			
 			field_name.setId(dynamic_fieldname + fieldCount);
 			field_info.setId(dynamic_fieldinfo + fieldCount);
-//			btn_delete_field.setId(dynamic_fielddeletebtn + fieldCount);
-//			btn_delete_field.setImageResource(R.drawable.edit_fielddeletebtn); //getResources().getDrawable(R.id.edit_fieldDeletebtn)
-//			btn_delete_field.setOnClickListener(new OnClickListener() {
-//				
-//				@Override
-//				public void onClick(View v) {
-//					// TODO Auto-generated method stub
-//					//ImageButton deletebtn = new ImageButton(findViewById());
-//					
-//				}
-//			});
-//			btn_delete_field.setBackgroundDrawable(null);
 			
 			field.addView(field_name);
 			field.addView(field_info);
@@ -263,14 +269,8 @@ public class EditActivity extends Activity {
 			field_info_editText.addRule(RelativeLayout.RIGHT_OF, field_name.getId());
 			field_info_editText.width = 340;
 			
-//			RelativeLayout.LayoutParams field_delete_btn = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-//			field_delete_btn.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-//			field_delete_btn.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-//			field_delete_btn.setMargins(0, 0, -24, 0);
-			
 			field_name.setLayoutParams(field_name_editText);
 			field_info.setLayoutParams(field_info_editText);
-			//btn_delete_field.setLayoutParams(field_delete_btn);
 			
 			fieldArray.add(field);
 			
