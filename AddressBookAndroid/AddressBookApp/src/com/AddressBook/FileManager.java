@@ -17,6 +17,10 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
+
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 import android.util.Log;
 
@@ -74,6 +78,7 @@ public class FileManager {
 	}
 	
 	public DB makeDB(String xmlName){
+		
 		DB db = new DB();
 		ArrayList<Data> dataList = new ArrayList<Data>();
 		Element root;
@@ -135,6 +140,7 @@ public class FileManager {
 		db.setDataList(dataList);
 		
 		return db;
+		
 	}
 	
 	
@@ -159,6 +165,45 @@ public class FileManager {
 			outputter.output(document, new FileOutputStream(xmlLocation));
 		} catch (IOException e1) {
 			e1.printStackTrace();
+		}
+	}
+	
+	
+	public DB makeSQLDB(Context context){
+		SQL_helper helper = new SQL_helper(context);
+		DB db = new DB();
+		SQLiteDatabase dbSQLite = helper.getReadableDatabase();
+		Cursor cur = dbSQLite.rawQuery("SELECT * FROM data WHERE id = 0", null);
+		
+		while(cur.moveToNext()){
+			db.getDataList().add(new Data(cur.getString(1),cur.getString(2)));
+		}
+		
+		cur = dbSQLite.rawQuery("SELECT * FROM field LIMIT 1", null);
+		
+		while(cur.moveToNext()){
+			db.getDataList().get(cur.getInt(0)).addField(cur.getString(1), cur.getString(2));
+		}
+		
+		return db;
+	}
+	
+	public void saveSQLDB(Context context, DB db){
+		SQL_helper helper = new SQL_helper(context);
+		SQLiteDatabase dbSQLite = helper.getReadableDatabase();
+
+		dbSQLite.execSQL("DROP TABLE data");
+		dbSQLite.execSQL("DROP TABLE field");
+
+		dbSQLite.execSQL("CREATE TABLE data ( id INTEGER PRIMARY KEY AUTOINCREMENT, phone TEXT");
+		dbSQLite.execSQL("CREATE TABLE field ( id INTEGER, fieldName TEXT, fieldData TEXT");
+		
+		int i = 0;
+		for (Data data:db.getDataList()){
+			dbSQLite.execSQL("INSERT INTO data ("+null+","+data.getName()+","+data.getPhoneNumber()+")");
+			for(Field field:data.getFieldList()){
+				dbSQLite.execSQL("INSERT INTO field ("+i+","+field.getFieldName()+","+field.getFieldData()+")");
+			}
 		}
 	}
 }
