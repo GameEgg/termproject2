@@ -12,19 +12,11 @@ public class Data implements Comparable{
 	public Data(String iname, String iphoneNumber)
 	{
 		name = iname;
-		phoneNumber = "";
 		fieldList = new ArrayList<Field>();
 		sms = new ArrayList<String>();
 		//
 
-		Pattern pattern = Pattern.compile("\\d");
-
-		char[] inputArr = iphoneNumber.toCharArray();
-		for(int i = 0; i < iphoneNumber.length(); ++i){
-			String s = String.valueOf(inputArr[i]);
-			
-			phoneNumber += pattern.matcher(s).matches()?s:"";
-		}
+		setPhoneNumber(iphoneNumber);
 	}
 	
 	public String getName() {
@@ -53,6 +45,17 @@ public class Data implements Comparable{
 		}
 		
 		return upgradeNumber;
+	}
+	public void setPhoneNumber(String newPhoneNumber){
+		phoneNumber = "";
+		Pattern pattern = Pattern.compile("\\d");
+
+		char[] inputArr = newPhoneNumber.toCharArray();
+		for(int i = 0; i < newPhoneNumber.length(); ++i){
+			String s = String.valueOf(inputArr[i]);
+			
+			phoneNumber += pattern.matcher(s).matches()?s:"";
+		}
 	}
 	public boolean addField(String fieldName,String fieldData)
 	{
