@@ -106,7 +106,7 @@ public class EditActivity extends Activity {
 		fieldArray = new ArrayList<RelativeLayout>();
 		
 		FM = new FileManager();
-		db = FM.makeDB("dm.xml");
+		db = FM.makeDB("db.xml");
 		
 		if(Mode.equalsIgnoreCase("edit"))
 		{
@@ -133,7 +133,9 @@ public class EditActivity extends Activity {
 				EditText field_info = new EditText(me);
 				
 				field_name.setId(dynamic_fieldname + fieldCount);
+				field_name.setText(db.getDataList().get(DbIndex).getFieldList().get(i).getFieldName());
 				field_info.setId(dynamic_fieldinfo + fieldCount);
+				field_info.setText(db.getDataList().get(DbIndex).getFieldList().get(i).getFieldData());
 				
 				field.addView(field_name);
 				field.addView(field_info);
@@ -141,6 +143,7 @@ public class EditActivity extends Activity {
 				RelativeLayout.LayoutParams field_name_editText = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 				field_name_editText.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
 				field_name_editText.width = 260;
+				
 				
 				RelativeLayout.LayoutParams field_info_editText = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 				field_info_editText.addRule(RelativeLayout.RIGHT_OF, field_name.getId());
