@@ -3,7 +3,9 @@ package com.AddressBook;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -61,12 +63,16 @@ public class MainActivity extends Activity {
 		db.getDataList().add(new Data("RuneEgg", "222222222"));
 		db.getDataList().add(new Data("GameEgg", "111111111"));
 		db.getDataList().add(new Data("MadLife", "131313"));
+		db.getDataList().get(2).addField("NickName", "CJ Entus MadLife");
+		db.getDataList().get(2).addField("Rank", "Challenger");
 		fm.saveDB(db, "db.xml");
 		
 		dataAdapter = new ArrayAdapter<Data>(this, R.layout.name_textview,db.getDataList());
 		dataListView.setAdapter(dataAdapter);
 		
 		dataListView.setOnItemClickListener(new dataItemClickEventListener());
+		addButton.setOnClickListener(new addButtonClickEventListener());
+		//searchingText.setOn
 		Log.i("egg","리스너 등록 완료");
 	}
 
@@ -82,12 +88,25 @@ public class MainActivity extends Activity {
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View parent, int index,
 				long arg3) {
-			Log.i("egg","눌러짐");
+			Log.i("egg","눌러짐 : "+index);
 			Intent editIntent = new Intent(MainActivity.this,EditActivity.class);
 			editIntent.putExtra("Mode", "edit");
 			editIntent.putExtra("Index", index);
 			
 			startActivity(editIntent);//
+		}
+	
+	}
+	class addButtonClickEventListener implements android.view.View.OnClickListener{
+
+		@Override
+		public void onClick(View arg0) {
+			Log.i("egg","눌러짐 : add");
+			Intent editIntent = new Intent(MainActivity.this,EditActivity.class);
+			editIntent.putExtra("Mode", "add");
+			
+			startActivity(editIntent);//
+			
 		}
 	
 	}
