@@ -38,6 +38,7 @@ public class EditActivity extends Activity {
 	Button btn_test;
 	Button btn_call;
 	Button btn_sms;
+	Button btn_deleteData;
 	
 	private FileManager FM;
 	private DB db;
@@ -45,14 +46,12 @@ public class EditActivity extends Activity {
 	private int DbIndex;
 	private RelativeLayout field;
 	private ArrayList<RelativeLayout> fieldArray;
-	private ArrayList<RelativeLayout> fieldArray2;
 	
 	private EditActivity me;
 	private LinearLayout dynamiclayout; // field 부분
 	private int fieldCount;
 	private final int dynamic_fieldname = 0x6000;
 	private final int dynamic_fieldinfo = 0x7000;
-	private final int dynamic_fielddeletebtn = 0x8000;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +98,10 @@ public class EditActivity extends Activity {
 		btn_sms = (Button)findViewById(R.id.button_sms);
 		btn_sms.setOnClickListener(clickLisener);
 		
+		btn_deleteData = (Button)findViewById(R.id.edit_deleteData);
+		btn_deleteData.setOnClickListener(clickLisener);
+		btn_deleteData.setVisibility(View.GONE);
+		
 		fieldCount = 0; // field 갯수나타내는거 초기화
 		fieldArray = new ArrayList<RelativeLayout>();
 		
@@ -107,6 +110,8 @@ public class EditActivity extends Activity {
 		
 		if(Mode.equalsIgnoreCase("edit"))
 		{
+			btn_deleteData.setVisibility(View.VISIBLE);
+			
 			DbIndex = getIntent().getExtras().getInt("Index");
 			
 			editText_name.setText(db.getDataList().get(DbIndex).getName());
@@ -124,8 +129,13 @@ public class EditActivity extends Activity {
 				
 				field_name.setId(dynamic_fieldname + fieldCount);
 				field_name.setText(db.getDataList().get(DbIndex).getFieldList().get(i).getFieldName());
+				field_name.setLines(1);
+				field_name.setSingleLine(true);
+				
 				field_info.setId(dynamic_fieldinfo + fieldCount);
 				field_info.setText(db.getDataList().get(DbIndex).getFieldList().get(i).getFieldData());
+				field_info.setLines(1);
+				field_info.setSingleLine(true);
 				
 				field.addView(field_name);
 				field.addView(field_info);
@@ -180,14 +190,29 @@ public class EditActivity extends Activity {
 				
 			case R.id.edit_savebtn:
 				
-				Toast.makeText(EditActivity.this, "save btn", Toast.LENGTH_SHORT).show();
 				if(DbIndex == -1)//add 임
 				{
-					AddData();
-				}
+					if(editText_name.getText().length() != 0 && editText_phone.getText().length() != 0)
+					{
+						AddData();
+					}
+					else
+					{
+						Toast.makeText(EditActivity.this, "name or phone is null", Toast.LENGTH_SHORT).show();
+					}
+					me.finish();
+				} 
 				else
 				{
-					EditData();
+					if(editText_name.getText().length() != 0 && editText_phone.getText().length() != 0)
+					{
+						EditData();
+					}
+					else
+					{
+						Toast.makeText(EditActivity.this, "name or phone is null", Toast.LENGTH_SHORT).show();
+					}
+					me.finish();
 				}
 				break;
 				
@@ -234,6 +259,17 @@ public class EditActivity extends Activity {
 						Toast.LENGTH_LONG).show();
 					e.printStackTrace();
 				}
+				break;
+				
+			case R.id.edit_deleteData:
+				
+				if(DbIndex != -1)
+				{
+					db.getDataList().remove(DbIndex);
+					FM.saveDB(db, "db.xml");
+				}
+				me.finish();
+				break;
 
 
 			default:
@@ -254,8 +290,8 @@ public class EditActivity extends Activity {
 				field = new Field(fieldname.getText().toString(), fieldinfo.getText().toString());
 				db.getDataList().get(DbIndex).getFieldList().add(field);
 			}
-			FM.saveDB(db, "db.xml");//
-			me.finish();
+			FM.saveDB(db, "db.xml");
+			
 		}
 		
 		private void AddData()
@@ -270,7 +306,6 @@ public class EditActivity extends Activity {
 			}
 			db.getDataList().add(newaddressInfo);
 			FM.saveDB(db, "db.xml");
-			me.finish();
 		}
 		
 		private void AddField()
@@ -283,11 +318,15 @@ public class EditActivity extends Activity {
 			EditText field_info = new EditText(me);
 			
 			field_name.setId(dynamic_fieldname + fieldCount);
+			field_name.setLines(1);
+			field_name.setSingleLine(true);
+			
 			field_info.setId(dynamic_fieldinfo + fieldCount);
+			field_info.setLines(1);
+			field_info.setSingleLine(true);
 			
 			field.addView(field_name);
 			field.addView(field_info);
-			//field.addView(btn_delete_field);
 			
 			RelativeLayout.LayoutParams field_name_editText = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			field_name_editText.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
@@ -295,6 +334,8 @@ public class EditActivity extends Activity {
 			
 			RelativeLayout.LayoutParams field_info_editText = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			field_info_editText.addRule(RelativeLayout.RIGHT_OF, field_name.getId());
+			//field_name_editText.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+			//field_name_editText.addRule(RelativeLayout.ALIGN_RIGHT);
 			field_info_editText.width = 340;
 			
 			field_name.setLayoutParams(field_name_editText);

@@ -19,7 +19,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="585dp"
                 android:gravity="left" >
 
                 <TextView
@@ -152,6 +152,16 @@
                     android:layout_toLeftOf="@+id/edit_fieldAddbtn"
                     android:background="@null"
                     android:src="@drawable/edit_fielddeletebtn" />
+
+                <Button
+                    android:id="@+id/edit_deleteData"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dynamicArea"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="180dp"
+                    android:text="@string/edit_delete_btn" />
+
             </RelativeLayout>
 
         </ScrollView>

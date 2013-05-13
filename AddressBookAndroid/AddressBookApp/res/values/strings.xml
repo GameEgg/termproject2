@@ -12,6 +12,6 @@
     <string name="Edit_fieldName">Field Name</string>
     <string name="Edit_fieldInfo">Field Info</string>
     <string name="edit_call">Call</string>
-    <string name="edit_sms">Sms</string>
-
+    <string name="edit_sms">SMS</string>
+    <string name="edit_delete_btn">Delete</string>
 </resources>
