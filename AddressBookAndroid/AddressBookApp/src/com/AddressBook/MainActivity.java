@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -31,7 +33,7 @@ public class MainActivity extends Activity {
 	
 	private ArrayList<View> buttonViewList;
 	private ArrayList<Data> dataList;
-	//private DataAdapter dataAdapter;
+	private ArrayList<Integer> indexList;
 	private ArrayAdapter<Data> dataAdapter;
 	
 	
@@ -39,6 +41,9 @@ public class MainActivity extends Activity {
 	private FileManager fm;
 	
 	
+
+	
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +59,7 @@ public class MainActivity extends Activity {
 	
 		
 
-		Log.i("egg","파일 입출력 부분 시작");
-		fm = new FileManager();
-		db = fm.makeDB("db.xml");
-
+/*
 		//db.getDataList().add(new Data("워터백", "123123123"));
 		//db.getDataList().add(new Data("게임에그", "01027649277"));
 		//db.getDataList().add(new Data("넹넹넹넹", "123456"));
@@ -67,22 +69,42 @@ public class MainActivity extends Activity {
 		db.getDataList().add(new Data("MadLife", "131313"));
 		db.getDataList().get(2).addField("NickName", "CJ Entus MadLife");
 		db.getDataList().get(2).addField("Rank", "Challenger");
-		fm.saveDB(db, "db.xml");
+		*/
 		
-		dataAdapter = new ArrayAdapter<Data>(this, R.layout.name_textview,db.getDataList());
-		dataListView.setAdapter(dataAdapter);
-		
-		dataListView.setOnItemClickListener(new dataItemClickEventListener());
-		addButton.setOnClickListener(new addButtonClickEventListener());
-
-		searchingText.setOnEditorActionListener(new searching());
+		searchingText.addTextChangedListener(new searching());
 		Log.i("egg","리스너 등록 완료");
 	}
 	
 	
-	private void searchingList()
+	private void resetListView()
 	{
-		db.findListByString(searchingText.getText().toString());
+		
+		Log.i("egg", searchingText.getText().toString());
+		indexList = db.findListByString(searchingText.getText().toString());
+		dataList = new ArrayList<Data>();
+		
+		for(int i = 0; i < indexList.size(); ++i){
+			dataList.add(db.getDataList().get(indexList.get(i)));
+		}
+		
+		dataAdapter = new ArrayAdapter<Data>(this, R.layout.name_textview,dataList);
+		dataListView.setAdapter(dataAdapter);
+		
+		dataListView.setOnItemClickListener(new dataItemClickEventListener());
+		addButton.setOnClickListener(new addButtonClickEventListener());
+	}
+	
+	
+	@Override
+	protected void onResume() {
+		
+		fm = new FileManager();
+		db = fm.makeDB("db.xml");
+		
+		resetListView();
+
+		
+		super.onResume();
 	}
 
 	@Override
@@ -100,7 +122,7 @@ public class MainActivity extends Activity {
 			Log.i("egg","눌러짐 : "+index);
 			Intent editIntent = new Intent(MainActivity.this,EditActivity.class);
 			editIntent.putExtra("Mode", "edit");
-			editIntent.putExtra("Index", index);
+			editIntent.putExtra("Index", indexList.get(index));
 			startActivity(editIntent);
 		}
 	
@@ -115,12 +137,26 @@ public class MainActivity extends Activity {
 			startActivity(editIntent);
 		}
 	}
-	class searching implements TextView.OnEditorActionListener{
+	class searching implements TextWatcher{
 		@Override
-		public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+		public void afterTextChanged(Editable arg0) {
 			Log.i("egg","검색 작동!");
-			searchingList();
-			return false;
+			resetListView();
+			
+		}
+
+		@Override
+		public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+				int arg3) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onTextChanged(CharSequence arg0, int arg1, int arg2,
+				int arg3) {
+			// TODO Auto-generated method stub
+			
 		}
 	}
 	

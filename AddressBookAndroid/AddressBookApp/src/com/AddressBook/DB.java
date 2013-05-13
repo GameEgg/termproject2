@@ -76,6 +76,13 @@ public class DB {
 	}
 	public ArrayList<Integer> findListByString(String string){
 		ArrayList<Integer> list = new ArrayList<Integer>();
+		if(string.equals("")){
+			for(int i = 0; i < dataList.size(); ++i){
+				list.add(i);
+				continue;
+			}
+			return list;
+		}
 		for(int i = 0; i < dataList.size(); ++i){
 			if(dataList.get(i).getName().toLowerCase().contains(string.toLowerCase())){
 				list.add(i);
