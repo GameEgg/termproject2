@@ -319,12 +319,13 @@ public class EditActivity extends Activity {
 		private void AddData()
 		{
 			Data newaddressInfo = new Data(editText_name.getText().toString(), editText_phone.getText().toString());
+			
 			for(int i = 1 ; i <= fieldCount; i++)
 			{
 				EditText fieldname = (EditText)findViewById(dynamic_fieldname + i);
 				EditText fieldinfo = (EditText)findViewById(dynamic_fieldinfo + i);
 				Field field = new Field(fieldname.getText().toString(), fieldinfo.getText().toString());
-				db.getDataList().get(DbIndex).getFieldList().add(field);
+				newaddressInfo.addField(fieldname.getText().toString(), fieldinfo.getText().toString());
 			}
 			db.getDataList().add(newaddressInfo);
 			FM.saveSQLDB(me,db);
