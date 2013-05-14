@@ -18,6 +18,7 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -170,55 +171,68 @@ public class FileManager {
 	
 	
 	public DB makeSQLDB(Context context){
+		Log.i("egg","makeSQLDB : 시작");
 		SQL_helper helper = new SQL_helper(context);
 		DB db = new DB();
 		SQLiteDatabase dbSQLite = helper.getReadableDatabase();
 
-		//dbSQLite.execSQL("CREATE TABLE data ( id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, phone TEXT )");
-		//dbSQLite.execSQL("CREATE TABLE field ( id INTEGER PRIMARY KEY AUTOINCREMENT, dataID INTEGER, fieldName TEXT, fieldData TEXT )");
-		
-		Cursor cur = dbSQLite.rawQuery("SELECT * FROM data WHERE id = 0", null);
+		Cursor cur = dbSQLite.rawQuery("SELECT * FROM data", null);
 
 		while(cur.moveToNext()){
-			Log.i("egg","makeSQLDB : 1번째 안");
+			Log.i("egg","makeSQLDB : 1번째 안 : "+cur.getString(1)+","+cur.getString(2));
 			db.getDataList().add(new Data(cur.getString(1),cur.getString(2)));
 		}
 		cur.close();
 		
-		Cursor cur2 = dbSQLite.rawQuery("SELECT * FROM field WHERE id = 0", null);
-		
+		Cursor cur2 = dbSQLite.rawQuery("SELECT * FROM field", null);
 		while(cur2.moveToNext()){
 			Log.i("egg","makeSQLDB : while 두번째 안");
-			db.getDataList().get(cur.getInt(1)).addField(cur.getString(2), cur.getString(3));
+			db.getDataList().get(cur2.getInt(1)).addField(cur2.getString(2), cur2.getString(3));
 		}
 		cur2.close();
 		
 		
-		dbSQLite.close();
+		helper.close();
+		Log.i("egg","makeSQLDB : 끝");
 		
 		return db;
 	}
 	
 	public void saveSQLDB(Context context, DB db){
+		Log.i("egg","saveSQLDB : 시작");
 		
 		SQL_helper helper = new SQL_helper(context);
 		SQLiteDatabase dbSQLite = helper.getWritableDatabase();
 
-		dbSQLite.execSQL("DROP TABLE data");
-		dbSQLite.execSQL("DROP TABLE field");
+		dbSQLite.execSQL("DROP TABLE IF EXISTS data");
+		dbSQLite.execSQL("DROP TABLE IF EXISTS field");
 
 		dbSQLite.execSQL("CREATE TABLE data ( id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, phone TEXT )");
 		dbSQLite.execSQL("CREATE TABLE field ( id INTEGER PRIMARY KEY AUTOINCREMENT, dataID INTEGER, fieldName TEXT, fieldData TEXT )");
-		
+
 		int i = 0;
 		for (Data data:db.getDataList()){
-			dbSQLite.execSQL("INSERT INTO data VALUES (null,'"+data.getName()+"','"+data.getPhoneNumber()+"');");
+			ContentValues row = new ContentValues();
+			row.put("name",data.getName());
+			row.put("phone",data.getPhoneNumber());
+			dbSQLite.insert("data", null,row);
+			//dbSQLite.execSQL("INSERT INTO data VALUES (null,'"+data.getName()+"','"+data.getPhoneNumber()+"');");
 			for(Field field:data.getFieldList()){
-				dbSQLite.execSQL("INSERT INTO field VALUES (null,"+i+",'"+field.getFieldName()+"','"+field.getFieldData()+"');");
+				//dbSQLite.execSQL("INSERT INTO field VALUES (null,"+i+",'"+field.getFieldName()+"','"+field.getFieldData()+"');");
+
+				ContentValues rowf = new ContentValues();
+				rowf.put("dataID",i);
+				rowf.put("fieldName",field.getFieldName());
+				rowf.put("fieldData",field.getFieldData());
+				dbSQLite.insert("field", null,rowf);
+			
 			}
+			++i;
 		}
 		
-		dbSQLite.close();
+		helper.close();
+		
+		Log.i("egg","saveSQLDB : 끝");
 		
 	}
 }

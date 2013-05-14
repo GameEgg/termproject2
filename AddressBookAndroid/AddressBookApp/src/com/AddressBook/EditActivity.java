@@ -6,7 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -106,20 +106,26 @@ public class EditActivity extends Activity {
 		fieldArray = new ArrayList<RelativeLayout>();
 		
 		FM = new FileManager();
-		db = FM.makeDB("db.xml");
+		db = FM.makeSQLDB(me);
 		
+		Log.i("egg","edit Å½»ö 1 : db±æÀÌ" + db.getDataList().size());
 		if(Mode.equalsIgnoreCase("edit"))
 		{
 			btn_deleteData.setVisibility(View.VISIBLE);
-			
+
+			Log.i("egg","edit Å½»ö 2");
 			DbIndex = getIntent().getExtras().getInt("Index");
-			
+
+			Log.i("egg","edit Å½»ö 2-1 DbIndex : "+DbIndex);
 			editText_name.setText(db.getDataList().get(DbIndex).getName());
-			
+
+			Log.i("egg","edit Å½»ö 2-2");
 			editText_phone.setText(db.getDataList().get(DbIndex).getPhoneNumber());
-			
+
+			Log.i("egg","edit Å½»ö 3:forÁ÷Àü");
 			for(int i = 0; i < db.getDataList().get(DbIndex).getFieldList().size();i++)
 			{
+				Log.i("egg","edit Å½»ö 3:for¾È");
 				fieldCount++;
 				
 				field = new RelativeLayout(me);
@@ -282,7 +288,7 @@ public class EditActivity extends Activity {
 				if(DbIndex != -1)
 				{
 					db.getDataList().remove(DbIndex);
-					FM.saveDB(db, "db.xml");
+					FM.saveSQLDB(me,db);
 				}
 				me.finish();
 				break;
@@ -306,7 +312,7 @@ public class EditActivity extends Activity {
 				field = new Field(fieldname.getText().toString(), fieldinfo.getText().toString());
 				db.getDataList().get(DbIndex).getFieldList().add(field);
 			}
-			FM.saveDB(db, "db.xml");
+			FM.saveSQLDB(me,db);
 			
 		}
 		
@@ -321,7 +327,7 @@ public class EditActivity extends Activity {
 				db.getDataList().get(DbIndex).getFieldList().add(field);
 			}
 			db.getDataList().add(newaddressInfo);
-			FM.saveDB(db, "db.xml");
+			FM.saveSQLDB(me,db);
 		}
 		
 		private void AddField()

@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -56,8 +57,19 @@ public class MainActivity extends Activity {
 		addButton = (ImageButton)findViewById(R.id.addButton);
 		searchingText = (EditText)findViewById(R.id.searchingText);
 		dataListView = (ListView)findViewById(R.id.dataListView);
-	
-		
+	/*
+			SQL_helper dManager = new SQL_helper(this);
+	        
+	        //생성한 객체를 이용해서 SQLitedatabase 객체 얻어오기
+	        SQLiteDatabase db = dManager.getWritableDatabase();
+	        //db 객체를 이용해서 테이블에 데이터 저장하기
+	        db.execSQL("insert into data values(null, '임경모', '11111111');");
+	        db.execSQL("insert into data values(null, 'song', '23453456');");
+	        db.execSQL("insert into data values(null, 'aaaa', '234234');");
+	        db.execSQL("insert into data values(null, 'bbbb', '123435');");
+	        db.execSQL("insert into data values(null, 'cccc', '1234555');");
+	        db.close(); //반드시 닫아주어야 생성된다.
+		*/
 
 
 		//db.getDataList().add(new Data("워터백", "123123123"));
@@ -104,6 +116,7 @@ public class MainActivity extends Activity {
 		db.getDataList().get(2).addField("Rank", "Challenger");
 		
 		fm.saveSQLDB(this, db);
+		db = fm.makeSQLDB(this);
 		
 		resetListView();
 
@@ -123,7 +136,7 @@ public class MainActivity extends Activity {
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View parent, int index,
 				long arg3) {
-			Log.i("egg","눌러짐 : "+index);
+			Log.i("egg","눌러짐 : "+indexList.get(index));
 			Intent editIntent = new Intent(MainActivity.this,EditActivity.class);
 			editIntent.putExtra("Mode", "edit");
 			editIntent.putExtra("Index", indexList.get(index));

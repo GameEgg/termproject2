@@ -14,4 +14,6 @@
     <string name="edit_call">Call</string>
     <string name="edit_sms">SMS</string>
     <string name="edit_delete_btn">Delete</string>
+    <string name="title_activity_call_history">CallHistory</string>
+
 </resources>
