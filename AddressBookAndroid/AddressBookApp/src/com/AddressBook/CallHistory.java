@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -29,6 +30,7 @@ public class CallHistory extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_call_history);
 		
@@ -57,12 +59,12 @@ public class CallHistory extends Activity {
 	{
 		callHistoryList = new ArrayList<History>();
 		
-		History tmphis = new History("5월 14일 10시 30분","01040179173");
-		callHistoryList.add(tmphis);
-		tmphis = new History("5월 14일 10시 31분","01040179173");
-		callHistoryList.add(tmphis);
-		tmphis = new History("5월 14일 10시 32분","01040179173");
-		callHistoryList.add(tmphis);
+//		History tmphis = new History("5월 14일 10시 30분","01040179173");
+//		callHistoryList.add(tmphis);
+//		tmphis = new History("5월 14일 10시 31분","01040179173");
+//		callHistoryList.add(tmphis);
+//		tmphis = new History("5월 14일 10시 32분","01040179173");
+//		callHistoryList.add(tmphis);
 		
 		//callHistoryList.add(new History("2013년 5월 14일 9시 54분", "임경모 01040179173 수신"));
 		
