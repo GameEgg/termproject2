@@ -40,5 +40,5 @@
             android:label="@string/title_activity_call_history" >
         </activity>
     </application>
-
+    
 </manifest>
