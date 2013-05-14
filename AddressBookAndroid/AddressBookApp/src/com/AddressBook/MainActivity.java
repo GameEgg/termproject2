@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
@@ -48,7 +49,7 @@ public class MainActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
 		super.onCreate(savedInstanceState);
 		
