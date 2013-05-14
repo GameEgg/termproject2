@@ -38,11 +38,6 @@
         <activity
             android:name="com.AddressBook.CallHistory"
             android:label="@string/title_activity_call_history" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
