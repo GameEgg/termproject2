@@ -18,6 +18,7 @@ public class SQL_helper extends SQLiteOpenHelper{
 		Log.i("egg","onCreate »£√‚µ ");
 		db.execSQL("CREATE TABLE data ( id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, phone TEXT );");
 		db.execSQL("CREATE TABLE field ( id INTEGER PRIMARY KEY AUTOINCREMENT, dataID INTEGER, fieldName TEXT, fieldData TEXT );");
+		db.execSQL("CREATE TABLE callhistory ( id INTEGER PRIMARY KEY AUTOINCREMENT, dataID INTEGER, fieldName TEXT, fieldData TEXT );");
 	}
 
 	@Override
