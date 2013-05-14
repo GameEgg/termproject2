@@ -28,8 +28,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
-	
+
 	private ImageButton addButton;
+	private ImageButton historyButton;
 	private EditText searchingText;
 	private ListView dataListView;
 	
@@ -56,10 +57,13 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 
 		addButton = (ImageButton)findViewById(R.id.addButton);
+		historyButton = (ImageButton)findViewById(R.id.historyButton);
 		searchingText = (EditText)findViewById(R.id.searchingText);
 		dataListView = (ListView)findViewById(R.id.dataListView);
 
 		searchingText.addTextChangedListener(new searching());
+		addButton.setOnClickListener(new addButtonClickEventListener());
+		historyButton.setOnClickListener(new historyButtonClickEventListener());
 		Log.i("egg","리스너 등록 완료");
 	}
 	
@@ -79,7 +83,6 @@ public class MainActivity extends Activity {
 		dataListView.setAdapter(dataAdapter);
 		
 		dataListView.setOnItemClickListener(new dataItemClickEventListener());
-		addButton.setOnClickListener(new addButtonClickEventListener());
 	}
 	
 	
@@ -119,10 +122,17 @@ public class MainActivity extends Activity {
 
 		@Override
 		public void onClick(View arg0) {
-			Log.i("egg","눌러짐 : add");
 			Intent editIntent = new Intent(MainActivity.this,EditActivity.class);
 			editIntent.putExtra("Mode", "add");
 			startActivity(editIntent);
+		}
+	}
+	class historyButtonClickEventListener implements android.view.View.OnClickListener{
+
+		@Override
+		public void onClick(View arg0) {
+			Intent historyIntent = new Intent(MainActivity.this,CallHistory.class);
+			startActivity(historyIntent);
 		}
 	}
 	class searching implements TextWatcher{
