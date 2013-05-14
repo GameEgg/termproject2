@@ -6,11 +6,11 @@ import java.util.regex.Pattern;
 public class DB {
 	private ArrayList<Data> dataList;
 	private String userPhone;
-	private ArrayList<String> callHistory;
+	private ArrayList<History> callHistory;
 	
 	public DB(){
 		dataList = new ArrayList<Data>();
-		callHistory = new ArrayList<String>();
+		callHistory = new ArrayList<History>();
 	}
 	
 	public ArrayList<Data> getDataList() {
@@ -59,11 +59,11 @@ public class DB {
 		}
 	}
 
-	public ArrayList<String> getCallHistory() {
+	public ArrayList<History> getCallHistory() {
 		return callHistory;
 	}
 
-	public void setCallHistory(ArrayList<String> callHistory) {
+	public void setCallHistory(ArrayList<History> callHistory) {
 		this.callHistory = callHistory;
 	}
 	public boolean userPhoneExist(){
@@ -88,9 +88,12 @@ public class DB {
 				list.add(i);
 				continue;
 			}
-			else if(dataList.get(i).getName().toLowerCase().contains(string.toLowerCase())){
+			else if(dataList.get(i).getPurePhone().toLowerCase().contains(string.toLowerCase())){
 				list.add(i);
 				continue;
+			}
+			else if(dataList.get(i).getName().toLowerCase().contains(string.toLowerCase())){
+				
 			}
 			else {
 				for(Field field:dataList.get(i).getFieldList()){
@@ -120,4 +123,7 @@ public class DB {
 		}
 		return smsExistListIndex;
 	}
+	
+	
 }
+

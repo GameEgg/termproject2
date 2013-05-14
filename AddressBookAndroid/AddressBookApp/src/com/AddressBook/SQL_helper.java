@@ -18,13 +18,14 @@ public class SQL_helper extends SQLiteOpenHelper{
 		Log.i("egg","onCreate »£√‚µ ");
 		db.execSQL("CREATE TABLE data ( id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, phone TEXT );");
 		db.execSQL("CREATE TABLE field ( id INTEGER PRIMARY KEY AUTOINCREMENT, dataID INTEGER, fieldName TEXT, fieldData TEXT );");
-		db.execSQL("CREATE TABLE callhistory ( id INTEGER PRIMARY KEY AUTOINCREMENT, dataID INTEGER, fieldName TEXT, fieldData TEXT );");
+		db.execSQL("CREATE TABLE callhistory ( id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, data TEXT );");
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int old, int now) {
 		db.execSQL("DROP TABLE IF EXISTS data");
 		db.execSQL("DROP TABLE IF EXISTS field");
+		db.execSQL("DROP TABLE IF EXISTS callhistory");
 		onCreate(db);
 		
 	}

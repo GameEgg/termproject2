@@ -44,8 +44,8 @@ public class FileManager {
 	    
 	    String xmlLocation = str_Path+"/"+xmlName;
 
-		for(String calling:db.getCallHistory()){
-			callHistory.addContent(newElement("calling",calling));
+		for(History calling:db.getCallHistory()){
+			callHistory.addContent(newElement("calling",calling.getData()));
 		}
 		userPhone.addContent(db.getUserPhone());
 		root.addContent(callHistory);
@@ -134,7 +134,7 @@ public class FileManager {
 				callHistory = node.getChildren();
 
 				for(Element history:callHistory){
-					db.getCallHistory().add(history.getText());
+					db.getCallHistory().add(new History(null,history.getText()));
 				}
 			}
 		}
@@ -179,17 +179,21 @@ public class FileManager {
 		Cursor cur = dbSQLite.rawQuery("SELECT * FROM data", null);
 
 		while(cur.moveToNext()){
-			Log.i("egg","makeSQLDB : 1번째 안 : "+cur.getString(1)+","+cur.getString(2));
 			db.getDataList().add(new Data(cur.getString(1),cur.getString(2)));
 		}
 		cur.close();
 		
 		Cursor cur2 = dbSQLite.rawQuery("SELECT * FROM field", null);
 		while(cur2.moveToNext()){
-			Log.i("egg","makeSQLDB : while 두번째 안");
 			db.getDataList().get(cur2.getInt(1)).addField(cur2.getString(2), cur2.getString(3));
 		}
 		cur2.close();
+		
+		Cursor cur3 = dbSQLite.rawQuery("SELECT * FROM callhistory", null);
+		while(cur3.moveToNext()){
+			db.getCallHistory().add(new History(cur3.getString(1),cur3.getString(1)));
+		}
+		cur3.close();
 		
 		
 		helper.close();
@@ -206,9 +210,11 @@ public class FileManager {
 
 		dbSQLite.execSQL("DROP TABLE IF EXISTS data");
 		dbSQLite.execSQL("DROP TABLE IF EXISTS field");
+		dbSQLite.execSQL("DROP TABLE IF EXISTS callhistory");
 
 		dbSQLite.execSQL("CREATE TABLE data ( id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, phone TEXT )");
 		dbSQLite.execSQL("CREATE TABLE field ( id INTEGER PRIMARY KEY AUTOINCREMENT, dataID INTEGER, fieldName TEXT, fieldData TEXT )");
+		dbSQLite.execSQL("CREATE TABLE callhistory ( id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, data TEXT );");
 
 		int i = 0;
 		for (Data data:db.getDataList()){
@@ -228,6 +234,13 @@ public class FileManager {
 			
 			}
 			++i;
+		}
+		
+		for(History call:db.getCallHistory()){
+			ContentValues row = new ContentValues();
+			row.put("date", call.getDate());
+			row.put("data", call.getData());
+			dbSQLite.insert("callhistory", null, row);
 		}
 		
 		helper.close();

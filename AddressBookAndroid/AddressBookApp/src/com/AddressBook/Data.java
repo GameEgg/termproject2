@@ -25,6 +25,9 @@ public class Data implements Comparable{
 	public void setName(String newName) {
 		name = newName;
 	}
+	public String getPurePhone(){
+		return phoneNumber;
+	}
 	public String getPhoneNumber() {
 		String upgradeNumber = new String();
 		
