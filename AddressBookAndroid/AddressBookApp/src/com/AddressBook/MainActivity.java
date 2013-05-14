@@ -57,27 +57,7 @@ public class MainActivity extends Activity {
 		addButton = (ImageButton)findViewById(R.id.addButton);
 		searchingText = (EditText)findViewById(R.id.searchingText);
 		dataListView = (ListView)findViewById(R.id.dataListView);
-	/*
-			SQL_helper dManager = new SQL_helper(this);
-	        
-	        //생성한 객체를 이용해서 SQLitedatabase 객체 얻어오기
-	        SQLiteDatabase db = dManager.getWritableDatabase();
-	        //db 객체를 이용해서 테이블에 데이터 저장하기
-	        db.execSQL("insert into data values(null, '임경모', '11111111');");
-	        db.execSQL("insert into data values(null, 'song', '23453456');");
-	        db.execSQL("insert into data values(null, 'aaaa', '234234');");
-	        db.execSQL("insert into data values(null, 'bbbb', '123435');");
-	        db.execSQL("insert into data values(null, 'cccc', '1234555');");
-	        db.close(); //반드시 닫아주어야 생성된다.
-		*/
 
-
-		//db.getDataList().add(new Data("워터백", "123123123"));
-		//db.getDataList().add(new Data("게임에그", "01027649277"));
-		//db.getDataList().add(new Data("넹넹넹넹", "123456"));
-		//db.getDataList().add(new Data("탈주상철", "44444444"));
-		
-		
 		searchingText.addTextChangedListener(new searching());
 		Log.i("egg","리스너 등록 완료");
 	}
@@ -108,19 +88,9 @@ public class MainActivity extends Activity {
 		fm = new FileManager();
 		//db = fm.makeDB("db.xml");->
 		db = fm.makeSQLDB(this);
-
-		db.getDataList().add(new Data("InSec", "111111111"));
-		db.getDataList().add(new Data("RapidStar", "222222222"));
-		db.getDataList().add(new Data("Shy", "131313"));
-		db.getDataList().get(2).addField("NickName", "CJ Entus Shy");
-		db.getDataList().get(2).addField("Rank", "Challenger");
-		
-		fm.saveSQLDB(this, db);
-		db = fm.makeSQLDB(this);
 		
 		resetListView();
 
-		
 		super.onResume();
 	}
 
